@@ -11,13 +11,19 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["AKS.Project.Sample/AKS.Project.Sample.csproj", "AKS.Project.Sample/"]
+COPY ["AKS.Project.Sample.Tests/AKS.Project.Sample.Tests.csproj", "AKS.Project.Sample.Tests/"]
 RUN dotnet restore "AKS.Project.Sample/AKS.Project.Sample.csproj"
+RUN dotnet restore "AKS.Project.Sample.Tests/AKS.Project.Sample.Tests.csproj"
 COPY . .
 WORKDIR "/src/AKS.Project.Sample"
 RUN dotnet build "AKS.Project.Sample.csproj" -c Release -o /app/build
+WORKDIR "/src/AKS.Project.Sample.Tests"
+RUN dotnet build "AKS.Project.Sample.Tests.csproj" -c Release -o /app/build
+
+RUN dotnet test "AKS.Project.Sample.Tests.csproj" --logger "trx;LogFileName=UnitTestResults.trx"
 
 FROM build AS publish
-RUN dotnet publish "AKS.Project.Sample.csproj" -c Release -o /app/publish
+RUN dotnet publish "AKS.Project.Sample/AKS.Project.Sample.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
