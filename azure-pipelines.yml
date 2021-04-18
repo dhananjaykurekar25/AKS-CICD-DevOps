@@ -31,22 +31,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Dhananjay subscription 1(a49fd322-3276-477e-b092-2d57428ac853)'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          docker build -f ./Dockerfile --target build -t aksprojectsample:$(build.buildid) . 
-                docker create -ti --name testcontainer aksprojectsample:$(build.buildid) 
-                docker cp testcontainer:/src/AKS.Project.Sample.Tests/TestResults/ $(Build.ArtifactStagingDirectory)/testresults 
-                docker rm -fv testcontainer
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'VSTest'
-        testResultsFiles: '*.trx'
-        searchFolder: '$(Build.ArtifactStagingDirectory)/testresults'
-        failTaskOnFailedTests: true
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
