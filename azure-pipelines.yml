@@ -36,8 +36,8 @@ stages:
       docker create -ti --name testcontainer AKS.Project.Sample:$(build.buildid) 
       docker cp testcontainer:/src/AKS.Project.Sample.Tests/TestResults/ $(Build.ArtifactStagingDirectory)/testresults 
       docker rm -fv testcontainer
-      displayName: 'get test results'
-      
+    displayName: 'get test results'
+
     -task: PublishTestResults@2
       inputs:
         testResultsFormat: 'NUnit'
