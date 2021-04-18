@@ -31,6 +31,19 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    -script: 
+      docker build -f ./AKS.Project.Sample/Dockerfile --target build -t AKS.Project.Sample:$(build.buildid) . 
+      docker create -ti --name testcontainer AKS.Project.Sample:$(build.buildid) 
+      docker cp testcontainer:/src/AKS.Project.Sample.Tests/TestResults/ $(Build.ArtifactStagingDirectory)/testresults 
+      docker rm -fv testcontainer
+      displayName: 'get test results'
+      
+    -task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'NUnit'
+        testResultsFiles: '*.trx'
+        searchFolder: '$(Build.ArtifactStagingDirectory)/testresults'
+        failTaskOnFailedTests: true  
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
