@@ -28,6 +28,12 @@ namespace AKS.Project.Sample.Controllers
             return View();
         }
 
+        public IActionResult About()
+        {
+            string name = "Dhananjay Kurekar";
+            return View("About", name);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
