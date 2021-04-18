@@ -23,7 +23,7 @@ RUN dotnet build "AKS.Project.Sample.Tests.csproj" -c Release -o /app/build
 RUN dotnet test "AKS.Project.Sample.Tests.csproj" --logger "trx;LogFileName=UnitTestResults.trx"
 
 FROM build AS publish
-RUN dotnet publish "AKS.Project.Sample/AKS.Project.Sample.csproj" -c Release -o /app/publish
+RUN dotnet publish "AKS.Project.Sample.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
