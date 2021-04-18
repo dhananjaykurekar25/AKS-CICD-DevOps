@@ -31,7 +31,7 @@ namespace AKS.Project.Sample.Tests
         {
             SampleHelper helper = new SampleHelper();
             var sum = helper.Sum(4, 5);
-            Assert.AreEqual(12, sum);
+            Assert.AreNotEqual(12, sum);
         }
     }
 }
