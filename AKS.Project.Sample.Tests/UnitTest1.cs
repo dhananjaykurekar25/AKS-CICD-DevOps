@@ -25,5 +25,13 @@ namespace AKS.Project.Sample.Tests
             var sum = helper.Sum(4, 5);
             Assert.AreEqual(9, sum);
         }
+
+        [Test]
+        public void FailTest()
+        {
+            SampleHelper helper = new SampleHelper();
+            var sum = helper.Sum(4, 5);
+            Assert.AreEqual(12, sum);
+        }
     }
 }
