@@ -2,7 +2,7 @@ name: CI
 
 # Run this workflow every time a commit is pushed to main or a pull request is opened against main
 on:
-pull_request:
+  pull_request:
     branches: [ main ]
     types: [closed]
 jobs:
