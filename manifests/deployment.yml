@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: aksaspnetcoreapp 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aksaspnetcoreapp
+  template:
+    metadata:
+      labels:
+        app: aksaspnetcoreapp 
+    spec:
+      containers:
+        - name: aksaspnetcoreapp 
+          image: akscicdregistry.azurecr.io/aksaspnetcoreapp
+          ports:
+          - containerPort: 80
