@@ -14,5 +14,5 @@ jobs:
           uses: Azure/pipelines@v1
           with:
             azure-devops-project-url: https://dev.azure.com/dhananjay25/AKS-CICD
-            azure-pipeline-name: 'dhananjaykurekar25.AKS-CICD'
+            azure-pipeline-name: 'dhananjaykurekar25.AKS-CICD-With-UnitTest'
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
