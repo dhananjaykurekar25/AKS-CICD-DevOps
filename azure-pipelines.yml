@@ -31,20 +31,22 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    -script: 
-      docker build -f ./AKS.Project.Sample/Dockerfile --target build -t AKS.Project.Sample:$(build.buildid) . 
-      docker create -ti --name testcontainer AKS.Project.Sample:$(build.buildid) 
-      docker cp testcontainer:/src/AKS.Project.Sample.Tests/TestResults/ $(Build.ArtifactStagingDirectory)/testresults 
-      docker rm -fv testcontainer
-      displayName: Get Test Results
-
-    -task: PublishTestResults@2
+    - task: AzureCLI@2
       inputs:
-        testResultsFormat: NUnit
-        testResultsFiles: *.trx
-        searchFolder: $(Build.ArtifactStagingDirectory)/testresults
-        failTaskOnFailedTests: true  
-
+        azureSubscription: 'Dhananjay subscription 1(a49fd322-3276-477e-b092-2d57428ac853)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          docker build -f ./AKS.Project.Sample/Dockerfile --target build -t AKS.Project.Sample:$(build.buildid) . 
+                docker create -ti --name testcontainer AKS.Project.Sample:$(build.buildid) 
+                docker cp testcontainer:/src/AKS.Project.Sample.Tests/TestResults/ $(Build.ArtifactStagingDirectory)/testresults 
+                docker rm -fv testcontainer
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'VSTest'
+        testResultsFiles: '*.trx'
+        searchFolder: '$(Build.ArtifactStagingDirectory)/testresults'
+        failTaskOnFailedTests: true
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
