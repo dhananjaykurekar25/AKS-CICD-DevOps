@@ -37,8 +37,8 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          docker build -f ./AKS.Project.Sample/Dockerfile --target build -t AKS.Project.Sample:$(build.buildid) . 
-                docker create -ti --name testcontainer AKS.Project.Sample:$(build.buildid) 
+          docker build -f ./Dockerfile --target build -t aksprojectsample:$(build.buildid) . 
+                docker create -ti --name testcontainer aksprojectsample:$(build.buildid) 
                 docker cp testcontainer:/src/AKS.Project.Sample.Tests/TestResults/ $(Build.ArtifactStagingDirectory)/testresults 
                 docker rm -fv testcontainer
     - task: PublishTestResults@2
